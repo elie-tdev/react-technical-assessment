@@ -28,6 +28,7 @@ type ContextType =
       clearCart: () => void;
       getTotalItems: () => number;
       getTotalPrice: () => number;
+      isEmpty: boolean;
     }
   | undefined;
 
@@ -150,6 +151,7 @@ export function CartProvider({ children }: Props) {
         clearCart,
         getTotalItems,
         getTotalPrice,
+        isEmpty: state.items.length === 0,
       }}
     >
       {children}

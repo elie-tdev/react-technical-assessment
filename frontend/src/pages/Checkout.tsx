@@ -11,7 +11,7 @@ import { CheckIcon } from 'lucide-react';
 
 function Checkout() {
   const navigate = useNavigate();
-  const { cart, clearCart, getTotalPrice } = useCart();
+  const { isEmpty, cart, clearCart, getTotalPrice } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
@@ -79,7 +79,7 @@ function Checkout() {
     );
   }
 
-  if (cart.items.length === 0) {
+  if (isEmpty) {
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">Checkout</h1>

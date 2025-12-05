@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+
 import { getProfile } from '@/services/api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { formatPhoneNumber } from '@/lib/utils';
 import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
-import { formatPhoneNumber } from '@/lib/utils';
 
 export default function UserProfile() {
   const {
@@ -26,9 +28,11 @@ export default function UserProfile() {
   }
 
   if (error) {
+    const errorData =
+      error instanceof AxiosError ? error.response?.data : error;
     return (
       <div className="container mx-auto px-4 py-8 flex items-center justify-center">
-        <ErrorDisplay message={error.message} retryText="Retry" />
+        <ErrorDisplay message={errorData.message} retryText="Retry" />
       </div>
     );
   }

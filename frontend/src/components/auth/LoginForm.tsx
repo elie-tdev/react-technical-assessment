@@ -63,7 +63,7 @@ export function LoginForm({ className, ...props }: Props) {
         </CardHeader>
         <CardContent>
           {error && (
-            <div className="rounded-md bg-red-50 p-4">
+            <div className="rounded-md bg-red-50 p-4 mb-6">
               <div className="text-sm text-red-700">{error}</div>
             </div>
           )}

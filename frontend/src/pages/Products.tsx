@@ -9,6 +9,7 @@ import ProductCard from '@/components/product/ProductCard';
 import ProductsSearchBar from '@/components/product/ProductsSearchBar';
 import ProductCategory from '@/components/product/ProductCategory';
 import ProductsPagination from '@/components/product/ProductsPagination';
+import { AxiosError } from 'axios';
 
 /**
  * Products page component to display products with search, category filtering, and pagination
@@ -24,7 +25,7 @@ function Products() {
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
   // Fetch products using react-query with search, category, and pagination parameters
-  const { data, isLoading, error } = useQuery({
+  const { data, isFetching, error } = useQuery({
     queryKey: ['products', search, category, currentPage],
     queryFn: async () => {
       const response = await getProducts({
@@ -41,14 +42,16 @@ function Products() {
     },
   });
 
-  if (isLoading) {
+  if (isFetching) {
     return <Loading message="Loading products..." />;
   }
 
   if (error) {
+    const errorData =
+      error instanceof AxiosError ? error.response?.data : error;
     return (
       <div className="container mx-auto px-4 py-8 flex items-center justify-center">
-        <ErrorDisplay message={error.message} retryText="Retry" />
+        <ErrorDisplay message={errorData.message} retryText="Retry" />
       </div>
     );
   }

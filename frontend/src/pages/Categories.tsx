@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getCategories } from '@/services/api';
 import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
+import { AxiosError } from 'axios';
 
 export default function Categories() {
   const { data, isLoading, error } = useQuery({
@@ -21,9 +22,11 @@ export default function Categories() {
   const categories = data || [];
 
   if (error) {
+    const errorData =
+      error instanceof AxiosError ? error.response?.data : error;
     return (
       <div className="container mx-auto px-4 py-8 flex items-center justify-center">
-        <ErrorDisplay message={error.message} retryText="Retry" />
+        <ErrorDisplay message={errorData.message} retryText="Retry" />
       </div>
     );
   }

@@ -9,6 +9,7 @@ import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
 import AddToCart from '@/components/product/AddToCart';
 import ProductThumb from '@/components/product/ProductThumb';
+import { AxiosError } from 'axios';
 
 function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -36,6 +37,8 @@ function ProductDetail() {
   }
 
   if (error) {
+    const errorData =
+      error instanceof AxiosError ? error.response?.data : error;
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
@@ -43,7 +46,7 @@ function ProductDetail() {
             <ArrowLeftIcon />
             Back to Products
           </Button>
-          <ErrorDisplay message={error.message} retryText="Retry" />
+          <ErrorDisplay message={errorData.message} retryText="Retry" />
         </div>
       </div>
     );

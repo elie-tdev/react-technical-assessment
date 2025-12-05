@@ -11,31 +11,41 @@ type Props = {
 /**
  * QuantityButtons component allows users to increase or decrease the quantity
  * of a cart item with accessible buttons and proper validation.
+ * Provides intuitive controls for adjusting item quantities in the cart.
  */
 export default function QuantityButtons({ item }: Props) {
   const { updateQuantity } = useCart();
 
   return (
-    <ButtonGroup>
+    <ButtonGroup role="group" aria-label="Quantity adjustment buttons">
+      {/* Button to decrease quantity, disabled when item quantity is 1 or less */}
       <Button
         variant="outline"
         size="icon-sm"
         onClick={() => updateQuantity(item.id, item.quantity - 1)}
         disabled={item.quantity <= 1}
-        aria-label="Decrease quantity"
+        aria-label={`Decrease quantity of ${item.name} by 1`}
       >
-        <MinusIcon />
+        <MinusIcon aria-hidden="true" />
       </Button>
-      <Button variant="outline" size="icon-sm" disabled aria-label={`Quantity: ${item.quantity}`}>
+      {/* Display current quantity as a disabled button */}
+      <Button
+        variant="outline"
+        size="icon-sm"
+        disabled
+        aria-label={`${item.name} quantity: ${item.quantity}`}
+        className="min-w-[32px] justify-center"
+      >
         {item.quantity}
       </Button>
+      {/* Button to increase quantity */}
       <Button
         variant="outline"
         size="icon-sm"
         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-        aria-label="Increase quantity"
+        aria-label={`Increase quantity of ${item.name} by 1`}
       >
-        <PlusIcon />
+        <PlusIcon aria-hidden="true" />
       </Button>
     </ButtonGroup>
   );
