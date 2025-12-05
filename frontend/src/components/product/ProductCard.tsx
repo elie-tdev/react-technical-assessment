@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
-import type { Product } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import AddToCart from './AddToCart';
 import ProductThumb from './ProductThumb';
+import type { Product } from '@/types';
 
 type ProductCardProps = {
   product: Product;
@@ -12,6 +12,7 @@ type ProductCardProps = {
 export default function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate();
 
+  // Handle navigation to the product details page
   const handleProductClick = (id: string) => {
     navigate(`/product/${id}`);
   };

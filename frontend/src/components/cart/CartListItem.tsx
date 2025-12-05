@@ -1,16 +1,14 @@
-import { MinusIcon, PlusIcon } from 'lucide-react';
-
-import { ButtonGroup } from '@/components/ui/button-group';
 import { Button } from '@/components/ui/button';
 import { useCart, type CartItem } from '@/context/CartContext';
 import ProductThumb from '@/components/product/ProductThumb';
+import QuantityButtons from './QuantityButtons';
 
 type Props = {
   item: CartItem;
 };
 
 export default function CartListItem({ item }: Props) {
-  const { removeFromCart, updateQuantity } = useCart();
+  const { removeFromCart } = useCart();
 
   return (
     <li className="py-6 flex">
@@ -26,27 +24,7 @@ export default function CartListItem({ item }: Props) {
           </div>
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">
-          <ButtonGroup>
-            <Button
-              variant="outline"
-              size="icon-sm"
-              onClick={() => updateQuantity(item.id, item.quantity - 1)}
-              disabled={item.quantity <= 1}
-            >
-              <MinusIcon />
-            </Button>
-            <Button variant="outline" size="icon-sm" disabled>
-              {item.quantity}
-            </Button>
-            <Button
-              variant="outline"
-              size="icon-sm"
-              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-            >
-              <PlusIcon />
-            </Button>
-          </ButtonGroup>
-
+          <QuantityButtons item={item} />
           <Button
             type="button"
             variant="outline"

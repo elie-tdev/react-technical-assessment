@@ -1,8 +1,9 @@
+import { MinusIcon, PlusIcon } from 'lucide-react';
+
 import { useCart } from '@/context/CartContext';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Button } from '@/components/ui/button';
 import type { Product } from '@/types';
-import { MinusIcon, PlusIcon } from 'lucide-react';
 
 type Props = {
   product: Product;
@@ -17,6 +18,7 @@ export default function AddToCart({
 }: Props) {
   const { addToCart, updateQuantity, cart } = useCart();
 
+  // Check if the product is already in the cart
   const productAdded = cart.items.find((item) => item.id === product.id);
 
   const handleAddToCart = () => {
@@ -27,6 +29,7 @@ export default function AddToCart({
 
   return (
     <div className={className} onClick={(e) => e.stopPropagation()}>
+      {/* Display quantity buttons if product is in cart, otherwise show "Add to Cart" button */}
       {productAdded ? (
         <ButtonGroup className="w-full">
           <Button
