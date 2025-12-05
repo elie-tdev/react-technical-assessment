@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { login } from '@/services/api';
 import { useAuth } from '@/context/AuthContext';
-import Loading from './Loading';
+import Loading from '@/components/Loading';
 
 export function LoginForm({
   className,

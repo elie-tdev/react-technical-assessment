@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
-import AddToCart from '@/components/AddToCart';
-import ProductThumb from '@/components/ProductThumb';
+import AddToCart from '@/components/product/AddToCart';
+import ProductThumb from '@/components/product/ProductThumb';
 
 function ProductDetail() {
   const { id } = useParams<{ id: string }>();

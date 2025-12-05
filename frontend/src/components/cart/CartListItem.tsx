@@ -3,7 +3,7 @@ import { MinusIcon, PlusIcon } from 'lucide-react';
 import { ButtonGroup } from '@/components/ui/button-group';
 import { Button } from '@/components/ui/button';
 import { useCart, type CartItem } from '@/context/CartContext';
-import ProductThumb from './ProductThumb';
+import ProductThumb from '@/components/product/ProductThumb';
 
 type Props = {
   item: CartItem;

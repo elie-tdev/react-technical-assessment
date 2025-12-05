@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
-import CartListItem from '@/components/CartItem';
+import CartListItem from '@/components/cart/CartListItem';
 
 function Cart() {
   const navigate = useNavigate();

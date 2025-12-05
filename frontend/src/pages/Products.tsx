@@ -5,9 +5,9 @@ import { useSearchParams } from 'react-router-dom';
 import { getProducts } from '@/services/api';
 import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
-import ProductCard from '@/components/ProductCard';
-import ProductsSearchBar from './ProductsSearchBar';
-import ProductCategory from './ProductCategory';
+import ProductCard from '@/components/product/ProductCard';
+import ProductsSearchBar from '@/components/product/ProductsSearchBar';
+import ProductCategory from '@/components/product/ProductCategory';
 
 function Products() {
   const [searchParams] = useSearchParams();
