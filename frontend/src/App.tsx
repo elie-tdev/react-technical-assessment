@@ -13,6 +13,11 @@ import Navbar from '@/components/Navbar';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Providers from '@/components/Providers';
 
+/**
+ * Main application component that sets up routing and layout
+ * All routes are wrapped in Providers to make context available to child components
+ * Protected routes are wrapped with ProtectedRoute to check authentication
+ */
 function App() {
   return (
     <Providers>
@@ -23,6 +28,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
+              {/* Protected routes - only accessible when authenticated */}
               <Route element={<ProtectedRoute />}>
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetail />} />

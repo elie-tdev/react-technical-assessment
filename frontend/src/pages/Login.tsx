@@ -18,9 +18,9 @@ function Login() {
           </h2>
         </div>
         <LoginForm />
-        <div className="text-center text-sm text-gray-500 mt-4">
+        {/* <div className="text-center text-sm text-gray-500 mt-4">
           Test credentials: john.doe@example.com / password123
-        </div>
+        </div> */}
       </div>
     </div>
   );

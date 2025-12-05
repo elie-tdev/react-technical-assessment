@@ -1,3 +1,7 @@
+// Type for product specifications to ensure better type safety
+export type ProductSpecifications = Record<string, string | number | boolean>;
+
+// Product type definition for marketplace products
 export type Product = {
   id: string;
   name: string;
@@ -15,11 +19,12 @@ export type Product = {
   rating: number;
   reviewCount: number;
   tags: string[];
-  specifications: any;
+  specifications: ProductSpecifications;
   createdAt: string;
   updatedAt: string;
 };
 
+// Address type for user shipping/billing addresses
 export type Address = {
   street: string;
   city: string;
@@ -28,6 +33,7 @@ export type Address = {
   country: string;
 };
 
+// User type for user account information
 export type User = {
   id: string;
   email: string;
@@ -40,6 +46,7 @@ export type User = {
   isVerified: boolean;
 };
 
+// Category type for product categories
 export type Category = {
   id: string;
   name: string;
@@ -50,6 +57,7 @@ export type Category = {
   createdAt: string;
 };
 
+// Order type for user orders
 export type Order = {
   id: string;
   userId: string;
@@ -69,6 +77,7 @@ export type Order = {
   createdAt: string;
 };
 
+// Response type for login API
 export type LoginResponse = {
   data: {
     user: User;
@@ -78,6 +87,7 @@ export type LoginResponse = {
   message: string;
 };
 
+// Response type for products API
 export type ProductsResponse = {
   success: boolean;
   data: {
@@ -91,26 +101,31 @@ export type ProductsResponse = {
   };
 };
 
+// Response type for single product API
 export type ProductResponse = {
   success: boolean;
   data: Product;
 };
 
+// Response type for user profile API
 export type ProfileResponse = {
   success: boolean;
   data: User;
 };
 
+// Response type for user orders API
 export type OrdersResponse = {
   success: boolean;
   data: Order[];
 };
 
+// Response type for categories API
 export type CategoriesResponse = {
   success: boolean;
   data: Category[];
 };
 
+// Response type for single category API
 export type CategoryResponse = {
   success: boolean;
   data: Category;
