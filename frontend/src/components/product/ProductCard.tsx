@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { CrownIcon, StarIcon } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import AddToCart from './AddToCart';
 import ProductThumb from './ProductThumb';
+import FeaturedBadge from './FeaturedBadge';
+import ProductPricing from './ProductPricing';
+import ProductRating from './ProductRating';
 import type { Product } from '@/types';
 
 /**
@@ -33,31 +34,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       onClick={() => handleProductClick(product)}
     >
       <CardContent className="px-3 relative">
-        {product.featured && (
-          <Badge className="absolute top-2 left-5 bg-cyan-600">
-            <CrownIcon className="fill-current" /> Featured
-          </Badge>
-        )}
+        <FeaturedBadge product={product} />
         <ProductThumb product={product} />
         <div className="pt-4 px-2">
           <h3 className="font-bold text-lg mb-1 truncate">{product.name}</h3>
-          <div className="flex gap-2 items-center">
-            <span className="font-medium">${product.price.toFixed(2)}</span>
-            <div className="text-sm line-through text-muted-foreground">
-              ${product.compareAtPrice.toFixed(2)}
-            </div>
-          </div>
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex gap-1 items-center">
-              <StarIcon className="size-5 fill-primary" />
-              <div className="font-medium text-sm text-primary">
-                {product.rating}
-              </div>
-            </div>
-            <div className="text-sm text-muted-foreground">
-              {product.reviewCount} reviews
-            </div>
-          </div>
+          <ProductPricing product={product} />
+          <ProductRating product={product} />
         </div>
         <AddToCart product={product} className="mt-4" size="sm" />
       </CardContent>

@@ -1,57 +1,20 @@
-import { Link } from 'react-router-dom';
-
-import { useCart } from '@/context/CartContext';
-import { useAuth } from '@/context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { ShoppingCartIcon } from 'lucide-react';
-import UserMenu from './UserMenu';
+import LogoComponent from './navbar/LogoComponent';
+import NavigationLinks from './navbar/NavigationLinks';
+import CartWidget from './navbar/CartWidget';
+import AuthControls from './navbar/AuthControls';
 
 function Navbar() {
-  const { getTotalItems } = useCart();
-  const { isAuthenticated } = useAuth();
-
   return (
     <nav className="shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="text-xl font-semibold">
-              Marketplace
-            </Link>
+            <LogoComponent />
           </div>
-
-          {isAuthenticated && (
-            <div className="hidden sm:flex items-center space-x-4 ">
-              <Button asChild variant="ghost">
-                <Link to="/products">Products</Link>
-              </Button>
-              <Button asChild variant="ghost">
-                <Link to="/categories">Categories</Link>
-              </Button>
-            </div>
-          )}
-
+          <NavigationLinks />
           <div className="flex items-center space-x-4">
-            {isAuthenticated && (
-              <Button asChild variant="outline">
-                <Link to="/cart" className="relative">
-                  <ShoppingCartIcon className="size-4" />{' '}
-                  <span className="hidden sm:inline-block">Cart</span>
-                  {getTotalItems() > 0 && (
-                    <span className="absolute top-0.5 right-0.5 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full size-5">
-                      {getTotalItems()}
-                    </span>
-                  )}
-                </Link>
-              </Button>
-            )}
-            {isAuthenticated ? (
-              <UserMenu />
-            ) : (
-              <Button asChild>
-                <Link to="/login">Login</Link>
-              </Button>
-            )}
+            <CartWidget />
+            <AuthControls />
           </div>
         </div>
       </div>
