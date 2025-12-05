@@ -5,10 +5,18 @@ import AddToCart from './AddToCart';
 import ProductThumb from './ProductThumb';
 import type { Product } from '@/types';
 
+/**
+ * Props for ProductCard component
+ */
 type ProductCardProps = {
   product: Product;
 };
 
+/**
+ * Product card component that displays product information and allows interaction
+ * Clicking on the card navigates to the product details page, while the add to cart
+ * button allows adding the product to the cart without navigation
+ */
 export default function ProductCard({ product }: ProductCardProps) {
   const navigate = useNavigate();
 

@@ -46,21 +46,30 @@ export const login = (email: string, password: string) =>
   api.post<LoginResponse>('/auth/login', { email, password });
 
 /**
- * Fetches products with optional search and category filters
+ * Fetches products with optional search, category, pagination parameters
  * @param search - Optional search query string
  * @param category - Optional category ID to filter by
+ * @param page - Optional page number for pagination (default: 1)
+ * @param limit - Optional number of items per page (default: 20)
  * @returns ProductsResponse with product list and pagination info
  */
 export const getProducts = ({
   search,
   category,
+  page,
+  limit,
 }: {
   search?: string;
   category?: string;
+  page?: number;
+  limit?: number;
 }) => {
   const params = new URLSearchParams();
   if (search) params.append('search', search || '');
   if (category) params.append('category', category || '');
+  if (page) params.append('page', page.toString());
+  if (limit) params.append('limit', limit.toString());
+
   const queryString = params.toString();
 
   return api.get<ProductsResponse>(

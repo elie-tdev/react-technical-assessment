@@ -16,10 +16,9 @@ import { login } from '@/services/api';
 import { useAuth } from '@/context/AuthContext';
 import Loading from '@/components/Loading';
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<'div'>) {
+type Props = React.ComponentProps<'div'>;
+
+export function LoginForm({ className, ...props }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
