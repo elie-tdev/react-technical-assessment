@@ -21,6 +21,7 @@ function Products() {
       const response = await getProducts({ search });
       return response.data.data.products;
     },
+    initialData: [],
   });
 
   if (isLoading) {
