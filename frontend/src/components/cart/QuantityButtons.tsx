@@ -34,7 +34,7 @@ export default function QuantityButtons({ item }: Props) {
         size="icon-sm"
         disabled
         aria-label={`${item.name} quantity: ${item.quantity}`}
-        className="min-w-[32px] justify-center"
+        className="min-w-8 justify-center"
       >
         {item.quantity}
       </Button>
