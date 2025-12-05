@@ -30,7 +30,7 @@ export function LoginForm({
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { store } = useAuth();
+  const { storeToken } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ export function LoginForm({
       const { token } = response.data.data;
 
       // Store the token in localStorage
-      store(token);
+      storeToken(token);
 
       // Navigate to products page after successful login
       navigate('/products');

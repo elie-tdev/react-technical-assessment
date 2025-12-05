@@ -15,22 +15,19 @@ import ProductCard from '@/components/ProductCard';
 function Products() {
   const [search, setSearch] = useState('');
 
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['products', search],
     queryFn: async () => {
       const response = await getProducts({ search });
       return response.data.data.products;
     },
-    initialData: [],
   });
 
   if (isLoading) {
     return <Loading message="Loading products..." />;
   }
+
+  const products = data || [];
 
   if (error) {
     return (

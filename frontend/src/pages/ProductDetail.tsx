@@ -3,18 +3,16 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeftIcon } from 'lucide-react';
 
 import { getProduct } from '@/services/api';
-import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
+import AddToCart from '@/components/AddToCart';
+import ProductThumb from '@/components/ProductThumb';
 
 function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { addToCart, cart } = useCart();
-
-  const productAdded = cart.items.find((item) => item.id === id);
 
   const {
     data: product,
@@ -28,12 +26,6 @@ function ProductDetail() {
     },
     enabled: !!id,
   });
-
-  const handleAddToCart = () => {
-    if (product) {
-      addToCart(product);
-    }
-  };
 
   const handleGoBack = () => {
     navigate('/products');
@@ -82,17 +74,7 @@ function ProductDetail() {
       <div className="bg-white overflow-hidden">
         <div className="md:flex">
           <div className="md:shrink-0 md:w-1/2">
-            {product.images.length ? (
-              <img
-                src={product.images[0]}
-                alt={product.name}
-                className="w-full h-96 object-cover md:h-full rounded-2xl"
-              />
-            ) : (
-              <div className="w-full h-96 bg-gray-200 flex items-center justify-center md:h-full rounded-2xl">
-                <span className="text-gray-500">No image</span>
-              </div>
-            )}
+            <ProductThumb product={product} className="h-96" />
           </div>
           <div className="p-8 md:w-1/2">
             <div className="uppercase tracking-wide text-sm text-muted-foreground">
@@ -119,17 +101,7 @@ function ProductDetail() {
                 </Badge>
               ))}
             </div>
-            <div className="mt-8">
-              <Button
-                onClick={handleAddToCart}
-                className="w-full"
-                variant={productAdded ? 'outline' : 'default'}
-              >
-                {productAdded
-                  ? `${productAdded?.quantity} added to cart`
-                  : 'Added to cart'}
-              </Button>
-            </div>
+            <AddToCart product={product} className="mt-8" size="lg" />
           </div>
         </div>
       </div>

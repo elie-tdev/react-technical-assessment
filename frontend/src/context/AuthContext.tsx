@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useState } from 'react';
 
-interface AuthContextType {
+type AuthContextType = {
   token: string | null;
-  store: (token: string) => void;
+  storeToken: (token: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
-}
+};
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -18,7 +18,7 @@ export function AuthProvider({ children }: Props) {
     localStorage.getItem('token') || null
   );
 
-  const store = (token: string) => {
+  const storeToken = (token: string) => {
     setToken(token);
     localStorage.setItem('token', token);
   };
@@ -31,7 +31,9 @@ export function AuthProvider({ children }: Props) {
   const isAuthenticated = !!token;
 
   return (
-    <AuthContext.Provider value={{ token, store, logout, isAuthenticated }}>
+    <AuthContext.Provider
+      value={{ token, storeToken, logout, isAuthenticated }}
+    >
       {children}
     </AuthContext.Provider>
   );

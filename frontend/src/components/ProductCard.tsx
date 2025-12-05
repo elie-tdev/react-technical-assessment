@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 
 import type { Product } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
+import AddToCart from './AddToCart';
+import ProductThumb from './ProductThumb';
 
 type ProductCardProps = {
   product: Product;
@@ -20,23 +22,17 @@ export default function ProductCard({ product }: ProductCardProps) {
       onClick={() => handleProductClick(product.id)}
     >
       <CardContent className="px-3">
-        {product.images.length ? (
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="w-full h-48 object-cover rounded-2xl"
-          />
-        ) : (
-          <div className="w-full h-48 bg-gray-200 flex items-center justify-center rounded-2xl">
-            <span className="text-gray-500">No image</span>
-          </div>
-        )}
+        <ProductThumb product={product} />
         <div className="pt-4 px-2">
           <h3 className="font-bold text-lg mb-1 truncate">{product.name}</h3>
-          <div className="flex justify-between items-center">
-            <span>${product.price.toFixed(2)}</span>
+          <div className="flex gap-2 items-center">
+            <span className="font-medium">${product.price.toFixed(2)}</span>
+            <div className="text-sm line-through">
+              ${product.compareAtPrice.toFixed(2)}
+            </div>
           </div>
         </div>
+        <AddToCart product={product} className="mt-4" size="sm" />
       </CardContent>
     </Card>
   );

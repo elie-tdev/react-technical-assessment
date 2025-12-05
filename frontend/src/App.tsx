@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Navbar from '@/components/Navbar';
 import Login from '@/pages/Login';
 import Products from '@/pages/Products';
 import UserProfile from '@/pages/UserProfile';
 import Checkout from '@/pages/Checkout';
 import OrderHistory from '@/pages/OrderHistory';
-
+import Cart from '@/pages/Cart';
 import ProductDetail from '@/pages/ProductDetail';
-import Cart from '@/components/Cart';
+
+import Navbar from '@/components/Navbar';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import Providers from '@/components/Providers';
 

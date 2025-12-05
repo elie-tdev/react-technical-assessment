@@ -1,7 +1,7 @@
 import type { Product } from '@/types';
 import React, { createContext, useContext, useReducer } from 'react';
 
-type CartItem = Pick<Product, 'id' | 'name' | 'price' | 'images'> & {
+export type CartItem = Pick<Product, 'id' | 'name' | 'price' | 'images'> & {
   quantity: number;
 };
 
