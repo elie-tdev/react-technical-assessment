@@ -21,9 +21,14 @@ function Navbar() {
           </div>
 
           {isAuthenticated && (
-            <Button asChild variant="ghost">
-              <Link to="/products">Products</Link>
-            </Button>
+            <div className="flex items-center space-x-4">
+              <Button asChild variant="ghost">
+                <Link to="/products">Products</Link>
+              </Button>
+              <Button asChild variant="ghost">
+                <Link to="/categories">Categories</Link>
+              </Button>
+            </div>
           )}
 
           <div className="flex items-center space-x-4">

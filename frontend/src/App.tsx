@@ -7,6 +7,7 @@ import Checkout from '@/pages/Checkout';
 import OrderHistory from '@/pages/OrderHistory';
 import Cart from '@/pages/Cart';
 import ProductDetail from '@/pages/ProductDetail';
+import Categories from '@/pages/Categories';
 
 import Navbar from '@/components/Navbar';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -22,54 +23,15 @@ function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
-              <Route
-                path="/products"
-                element={
-                  <ProtectedRoute>
-                    <Products />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/product/:id"
-                element={
-                  <ProtectedRoute>
-                    <ProductDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/cart"
-                element={
-                  <ProtectedRoute>
-                    <Cart />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <UserProfile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/checkout"
-                element={
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/order-history"
-                element={
-                  <ProtectedRoute>
-                    <OrderHistory />
-                  </ProtectedRoute>
-                }
-              />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/profile" element={<UserProfile />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-history" element={<OrderHistory />} />
+                <Route path="/categories" element={<Categories />} />
+              </Route>
             </Routes>
           </main>
         </div>

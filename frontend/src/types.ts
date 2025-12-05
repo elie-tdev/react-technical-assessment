@@ -40,6 +40,16 @@ export type User = {
   isVerified: boolean;
 };
 
+export type Category = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  image: string;
+  parentId: string | null;
+  createdAt: string;
+};
+
 export type Order = {
   id: string;
   userId: string;
@@ -94,4 +104,14 @@ export type ProfileResponse = {
 export type OrdersResponse = {
   success: boolean;
   data: Order[];
+};
+
+export type CategoriesResponse = {
+  success: boolean;
+  data: Category[];
+};
+
+export type CategoryResponse = {
+  success: boolean;
+  data: Category;
 };

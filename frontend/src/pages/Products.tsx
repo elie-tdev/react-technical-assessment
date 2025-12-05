@@ -1,24 +1,24 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { SearchIcon } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 
 import { getProducts } from '@/services/api';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from '@/components/ui/input-group';
 import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
 import ProductCard from '@/components/ProductCard';
+import ProductsSearchBar from './ProductsSearchBar';
+import ProductCategory from './ProductCategory';
 
 function Products() {
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get('category') || undefined;
+
   const [search, setSearch] = useState('');
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['products', search],
+    queryKey: ['products', search, category],
     queryFn: async () => {
-      const response = await getProducts({ search });
+      const response = await getProducts({ search, category });
       return response.data.data.products;
     },
     initialData: [],
@@ -43,20 +43,18 @@ function Products() {
       <h1 className="text-3xl font-bold text-center mb-8">Our Products</h1>
 
       <div className="flex items-center justify-center">
-        <InputGroup className="mb-8 bg-muted/80 max-w-xl h-12 rounded-full">
-          <InputGroupInput
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <InputGroupAddon>
-            <SearchIcon />
-          </InputGroupAddon>
-          <InputGroupAddon align="inline-end">
-            {products.length} results
-          </InputGroupAddon>
-        </InputGroup>
+        <ProductsSearchBar
+          value={search}
+          onChange={setSearch}
+          numOfProducts={products.length}
+        />
       </div>
+
+      {category && (
+        <div className="my-4">
+          <ProductCategory categoryId={category} />
+        </div>
+      )}
 
       {products.length === 0 ? (
         <div className="text-center py-12">

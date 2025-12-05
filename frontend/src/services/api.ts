@@ -1,5 +1,7 @@
 import axios from 'axios';
 import type {
+  CategoriesResponse,
+  CategoryResponse,
   LoginResponse,
   OrdersResponse,
   ProductResponse,
@@ -35,12 +37,21 @@ api.interceptors.response.use(
 export const login = (email: string, password: string) =>
   api.post<LoginResponse>('/auth/login', { email, password });
 
-export const getProducts = ({ search }: { search?: string }) => {
-  if (search) {
-    return api.get<ProductsResponse>(`/products?search=${search}`);
-  }
+export const getProducts = ({
+  search,
+  category,
+}: {
+  search?: string;
+  category?: string;
+}) => {
+  const params = new URLSearchParams();
+  if (search) params.append('search', search || '');
+  if (category) params.append('category', category || '');
+  const queryString = params.toString();
 
-  return api.get<ProductsResponse>(`/products`);
+  return api.get<ProductsResponse>(
+    `/products${queryString ? `?${queryString}` : ''}`
+  );
 };
 
 export const getProduct = (id: string) =>
@@ -55,5 +66,10 @@ export const createOrder = (data: {
 }) => api.post('/orders', data);
 
 export const getOrders = () => api.get<OrdersResponse>('/orders');
+
+export const getCategories = () => api.get<CategoriesResponse>('/categories');
+
+export const getCategory = (categoryId: string) =>
+  api.get<CategoryResponse>(`/categories/${categoryId}`);
 
 export default api;
