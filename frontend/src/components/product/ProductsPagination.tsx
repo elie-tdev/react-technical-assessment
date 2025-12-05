@@ -1,4 +1,5 @@
-import { useSearchParams } from 'react-router-dom';
+import { parseAsInteger, useQueryState } from 'nuqs';
+
 import {
   Pagination,
   PaginationContent,
@@ -15,18 +16,17 @@ import type { PaginationData, Product } from '@/types';
  */
 type Props = {
   pagination: PaginationData<Product>['pagination'];
-  setCurrentPage: (page: number) => void;
 };
 
 /**
  * Pagination component for products page that handles page navigation
  * and updates URL parameters to maintain state across page refreshes
  */
-export default function ProductsPagination({
-  pagination,
-  setCurrentPage,
-}: Props) {
-  const [, setSearchParams] = useSearchParams();
+export default function ProductsPagination({ pagination }: Props) {
+  const [, setCurrentPage] = useQueryState(
+    'page',
+    parseAsInteger.withDefault(1)
+  );
 
   /**
    * Handles page change by updating both local state and URL parameters
@@ -34,16 +34,7 @@ export default function ProductsPagination({
    */
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > pagination.pages) return;
-
     setCurrentPage(newPage);
-    setSearchParams((params) => {
-      if (newPage === 1) {
-        params.delete('page'); // Remove 'page' param when going to first page
-      } else {
-        params.set('page', newPage.toString());
-      }
-      return params;
-    });
   };
 
   /**

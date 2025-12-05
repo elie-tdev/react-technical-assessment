@@ -1,19 +1,21 @@
-import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useQueryState } from 'nuqs';
 import { XIcon } from 'lucide-react';
+import { AxiosError } from 'axios';
 
 import { getCategory } from '@/services/api';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
-import { AxiosError } from 'axios';
 
 type Props = {
   categoryId: string;
 };
 
 export default function ProductCategory({ categoryId }: Props) {
-  const navigate = useNavigate();
+  // Update category query parameter to null when clearing the filter
+  const [, setCategory] = useQueryState('category');
+
   const {
     data: category,
     isLoading,
@@ -46,7 +48,7 @@ export default function ProductCategory({ categoryId }: Props) {
           variant="ghost"
           size="icon"
           className="rounded-full"
-          onClick={() => navigate('/products')}
+          onClick={() => setCategory(null)}
         >
           <XIcon />
         </Button>

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeftIcon } from 'lucide-react';
+import { ArrowLeftIcon, CrownIcon, StarIcon } from 'lucide-react';
+import { AxiosError } from 'axios';
 
 import { getProduct } from '@/services/api';
 import { Button } from '@/components/ui/button';
@@ -9,8 +10,13 @@ import Loading from '@/components/Loading';
 import ErrorDisplay from '@/components/ErrorDisplay';
 import AddToCart from '@/components/product/AddToCart';
 import ProductThumb from '@/components/product/ProductThumb';
-import { AxiosError } from 'axios';
 
+/**
+ * Product detail page component that displays comprehensive information about a single product
+ * Features include product image gallery, name, description, ratings, price information,
+ * product tags, and an add-to-cart button. The page also supports featured product badges
+ * and displays star ratings with review count.
+ */
 function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -76,7 +82,12 @@ function ProductDetail() {
       </Button>
       <div className="bg-white overflow-hidden">
         <div className="md:flex">
-          <div className="md:shrink-0 md:w-1/2">
+          <div className="md:shrink-0 md:w-1/2 relative">
+            {product.featured && (
+              <Badge className="absolute top-2 left-2 bg-cyan-600">
+                <CrownIcon className="fill-current" /> Featured
+              </Badge>
+            )}
             <ProductThumb product={product} className="h-96" />
           </div>
           <div className="p-8 md:w-1/2">
@@ -87,19 +98,41 @@ function ProductDetail() {
               {product.name}
             </h1>
             <p className="mt-4 text-gray-600">{product.description}</p>
+
+            {/* Rating and reviews */}
+            <div className="flex gap-2 items-center mt-4">
+              <div className="flex gap-1 items-center">
+                <StarIcon className="size-5 fill-primary" />
+                <div className="font-medium text-sm text-primary">
+                  {product.rating}
+                </div>
+              </div>
+              <div>·</div>
+              <div className="text-sm text-muted-foreground">
+                {product.reviewCount} reviews
+              </div>
+            </div>
+
+            {/* Price & Compare at price */}
             <div className="mt-6 space-x-2">
               <span className="text-3xl font-bold">
                 ${product.price.toFixed(2)}
               </span>
               {product.compareAtPrice && (
-                <span className="line-through">
+                <span className="line-through text-muted-foreground">
                   ${product.compareAtPrice.toFixed(2)}
                 </span>
               )}
             </div>
+
+            {/* Product tags */}
             <div className="flex gap-2 mt-4">
               {product.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
+                <Badge
+                  key={tag}
+                  variant="secondary"
+                  className="text-muted-foreground"
+                >
                   {tag}
                 </Badge>
               ))}

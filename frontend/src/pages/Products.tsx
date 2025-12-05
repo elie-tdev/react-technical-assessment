@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import {
+  parseAsBoolean,
+  parseAsInteger,
+  parseAsStringLiteral,
+  useQueryState,
+  useQueryStates,
+} from 'nuqs';
 
 import { getProducts } from '@/services/api';
 import Loading from '@/components/Loading';
@@ -9,30 +16,48 @@ import ProductCard from '@/components/product/ProductCard';
 import ProductsSearchBar from '@/components/product/ProductsSearchBar';
 import ProductCategory from '@/components/product/ProductCategory';
 import ProductsPagination from '@/components/product/ProductsPagination';
-import { AxiosError } from 'axios';
+import SortDropdown from '@/components/product/SortDropdown';
+import FilterDialog from '@/components/product/FilterDialog';
+import type { SortOption } from '@/types';
 
 /**
  * Products page component to display products with search, category filtering, and pagination
  */
 function Products() {
-  // Get search parameters from URL to maintain state across page refreshes
-  const [searchParams] = useSearchParams();
-  const category = searchParams.get('category') || undefined;
-  const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
+  const [category] = useQueryState('category');
 
-  // Local state for search term and current page
+  const [currentPage, setCurrentPage] = useQueryState(
+    'page',
+    parseAsInteger.withDefault(1)
+  );
+
+  const [sort, setSort] = useQueryState(
+    'sort',
+    parseAsStringLiteral(['price_asc', 'price_desc', 'rating', 'newest'])
+  );
+
+  const [filters] = useQueryStates({
+    featured: parseAsBoolean,
+    minPrice: parseAsInteger,
+    maxPrice: parseAsInteger,
+  });
+
+  // Local state for search term, current page, sort option, and filters
   const [search, setSearch] = useState('');
-  const [currentPage, setCurrentPage] = useState(pageFromUrl);
 
-  // Fetch products using react-query with search, category, and pagination parameters
+  // Fetch products using react-query with search, category, filters, and pagination parameters
   const { data, isFetching, error } = useQuery({
-    queryKey: ['products', search, category, currentPage],
+    queryKey: ['products', search, category, currentPage, sort, filters],
     queryFn: async () => {
       const response = await getProducts({
         search,
         category,
+        sort,
         page: currentPage,
         limit: 20, // Show 20 products per page
+        featured: filters.featured,
+        minPrice: filters.minPrice,
+        maxPrice: filters.maxPrice,
       });
       return response.data.data;
     },
@@ -42,9 +67,10 @@ function Products() {
     },
   });
 
-  if (isFetching) {
-    return <Loading message="Loading products..." />;
-  }
+  const handleSortChange = (newSort: SortOption) => {
+    setSort(newSort);
+    setCurrentPage(1); // Reset to first page when sorting changes
+  };
 
   if (error) {
     const errorData =
@@ -70,9 +96,20 @@ function Products() {
         />
       </div>
 
+      <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+        <FilterDialog />
+        <SortDropdown currentSort={sort} onSortChange={handleSortChange} />
+      </div>
+
       {category && (
         <div className="my-4">
           <ProductCategory categoryId={category} />
+        </div>
+      )}
+
+      {isFetching && (
+        <div className="text-center py-12">
+          <Loading message="Loading products..." />
         </div>
       )}
 
@@ -91,10 +128,7 @@ function Products() {
           </div>
 
           {/* Pagination Controls */}
-          <ProductsPagination
-            pagination={pagination}
-            setCurrentPage={setCurrentPage}
-          />
+          <ProductsPagination pagination={pagination} />
         </>
       )}
     </div>

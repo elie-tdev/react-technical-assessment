@@ -7,7 +7,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogOutIcon, Package2Icon, UserIcon } from 'lucide-react';
+import {
+  Grid2X2Check,
+  LogOutIcon,
+  Package2Icon,
+  ShoppingBagIcon,
+  UserIcon,
+} from 'lucide-react';
 import { getProfile } from '@/services/api';
 import { useQuery } from '@tanstack/react-query';
 
@@ -52,6 +58,18 @@ export default function UserMenu() {
           <Link to="/order-history">
             <Package2Icon />
             Order History
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild className="sm:hidden">
+          <Link to="/products">
+            <ShoppingBagIcon />
+            Products
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild className="sm:hidden">
+          <Link to="/categories">
+            <Grid2X2Check />
+            Categories
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleLogout}>

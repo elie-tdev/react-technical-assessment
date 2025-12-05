@@ -7,6 +7,7 @@ import type {
   ProductResponse,
   ProductsResponse,
   ProfileResponse,
+  SortOption,
 } from '@/types';
 
 // Base API URL for the marketplace backend
@@ -46,11 +47,15 @@ export const login = (email: string, password: string) =>
   api.post<LoginResponse>('/auth/login', { email, password });
 
 /**
- * Fetches products with optional search, category, pagination parameters
+ * Fetches products with optional search, category, pagination, and filter parameters
  * @param search - Optional search query string
  * @param category - Optional category ID to filter by
  * @param page - Optional page number for pagination (default: 1)
  * @param limit - Optional number of items per page (default: 20)
+ * @param sort - Optional sort option (e.g., 'price_asc', 'price_desc', 'rating', 'newest')
+ * @param featured - Optional featured filter (true for featured items only)
+ * @param minPrice - Optional minimum price filter
+ * @param maxPrice - Optional maximum price filter
  * @returns ProductsResponse with product list and pagination info
  */
 export const getProducts = ({
@@ -58,17 +63,35 @@ export const getProducts = ({
   category,
   page,
   limit,
+  sort,
+  featured,
+  minPrice,
+  maxPrice,
 }: {
   search?: string;
-  category?: string;
+  category?: string | null;
   page?: number;
   limit?: number;
+  sort?: SortOption | null;
+  featured?: boolean | null;
+  minPrice?: number | null;
+  maxPrice?: number | null;
 }) => {
   const params = new URLSearchParams();
   if (search) params.append('search', search || '');
   if (category) params.append('category', category || '');
   if (page) params.append('page', page.toString());
   if (limit) params.append('limit', limit.toString());
+  if (sort) params.append('sort', sort);
+
+  if (featured !== undefined && featured !== null)
+    params.append('featured', featured.toString());
+
+  if (minPrice !== undefined && minPrice !== null)
+    params.append('minPrice', minPrice.toString());
+
+  if (maxPrice !== undefined && maxPrice !== null)
+    params.append('maxPrice', maxPrice.toString());
 
   const queryString = params.toString();
 

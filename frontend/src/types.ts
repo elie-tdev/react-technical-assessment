@@ -92,6 +92,8 @@ export type Order = {
   createdAt: string;
 };
 
+export type SortOption = 'price_asc' | 'price_desc' | 'rating' | 'newest';
+
 /**
  * Generic response type for API responses
  * Ensures consistent structure for all API responses
